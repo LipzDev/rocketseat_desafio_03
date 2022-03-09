@@ -23,20 +23,21 @@ const CartContext = createContext<CartContextData>({} as CartContextData);
 
 export function CartProvider({ children }: CartProviderProps): JSX.Element {
   const [cart, setCart] = useState<Product[]>(() => {
-    // const storagedCart = Buscar dados do localStorage
+    const storagedCart = localStorage.getItem('@RocketShoes:cart');
 
-    // if (storagedCart) {
-    //   return JSON.parse(storagedCart);
-    // }
+    if (storagedCart) {
+      return JSON.parse(storagedCart);
+    }
 
     return [];
   });
 
+
   const addProduct = async (productId: number) => {
     try {
-      // TODO
+      api.get(`/products/${productId}`).then(response => setCart(prev => [...prev, response.data]))
     } catch {
-      // TODO
+      toast('Erro ao salvar produto!')
     }
   };
 
@@ -44,7 +45,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       // TODO
     } catch {
-      // TODO
+      toast('Erro ao remover produto!')
     }
   };
 
@@ -55,7 +56,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     try {
       // TODO
     } catch {
-      // TODO
+      toast('Erro ao atualizar produto!')
     }
   };
 
