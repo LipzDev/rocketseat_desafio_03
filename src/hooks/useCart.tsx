@@ -6,7 +6,6 @@ import { Product, Stock } from '../types';
 interface CartProviderProps {
   children: ReactNode;
 }
-
 interface UpdateProductAmount {
   productId: number;
   amount: number;
@@ -42,8 +41,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       const stockAmout = stock.data.amout;
       const currentAmount = productExists ? productExists.amount : 0;
-      const amount = currentAmount + 1;
 
+      const amount = currentAmount + 1;
 
       if(amount > stockAmout){
         toast.error('Quantidade solicitada fora de estoque');
@@ -65,7 +64,6 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       setCart(updatedCart)
       localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
-      
     } catch {
       toast.error('Erro na adição do produto')
     }
