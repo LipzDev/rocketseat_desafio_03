@@ -71,9 +71,14 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const newCart = [...cart];
+      const productToDelete = newCart.filter(product => product.id !== productId)
+
+      setCart(productToDelete)
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(productToDelete))
+
     } catch {
-      toast('Erro ao remover produto!')
+      toast.error('Erro na remoção do produto');
     }
   };
 
@@ -82,9 +87,21 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     amount,
   }: UpdateProductAmount) => {
     try {
-      // TODO
+      // const currentCart = [...cart];
+      // const productExists = currentCart.find(product => product.id === productId);
+
+      const product = await api.get(`/products/${productId}`);
+
+      const refreshProduct = [{
+        ...product.data,
+        amount: amount
+      }]
+
+      setCart(refreshProduct)
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(refreshProduct))
+
     } catch {
-      toast('Erro ao atualizar produto!')
+      toast.error('Erro na alteração de quantidade do produto');
     }
   };
 
